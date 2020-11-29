@@ -2,7 +2,7 @@
 #include "strings_comparer.h"
 
 void free_of_array(strings_array_t array_of_strings, array_size_t number_of_lines) {
-    for (int i = 0; i < number_of_lines; i++) {
+    for (int i = 0; i < (int) number_of_lines; i++) {
         free(array_of_strings[i]);
     }
     free(array_of_strings);
@@ -40,7 +40,7 @@ int compare_des(const char *string1, const char *string2) {
     } else {
         string_length = strlen(string1);
     }
-    for (int i = 0; i < string_length; i++) {
+    for (int i = 0; i < (int) string_length; i++) {
         if (string1[i] > string2[i]) {
             return -1;
         }
@@ -58,7 +58,7 @@ int compare_asc(const char *string1, const char *string2) {
     } else {
         string_length = strlen(string1);
     }
-    for (int i = 0; i < string_length; i++) {
+    for (int i = 0; i < (int) string_length; i++) {
         if (string1[i] < string2[i]) {
             return -1;
         }
@@ -69,16 +69,16 @@ int compare_asc(const char *string1, const char *string2) {
     return 0;
 }
 
-int reading_file(char *name_input, strings_array_t array_of_strings, array_size_t number_of_lines) {
+size_t reading_file(char *name_input, strings_array_t array_of_strings, array_size_t number_of_lines) {
     FILE *file;
     if ((file = fopen(name_input, "rb")) == NULL) {
         fprintf(stdout, "Cannot open file. No file with name %s exists.", name_input);
-        return -1;
+        return 0;
     }
     char symbol;
     int count = 0;
-    array_size_t actual_number_of_lines = 0;
-    for (int i = 0; i < number_of_lines && !feof(file); i++) {
+    size_t actual_number_of_lines = 0;
+    for (int i = 0; i < (int) number_of_lines && !feof(file); i++) {
         actual_number_of_lines++;
         for (int j = 0; j < MAX_INPUT_STRING_SIZE + 2; j++) {
             if ((symbol = (char) fgetc(file)) != EOF) {
@@ -108,7 +108,7 @@ int writing_file(char *name_output, strings_array_t array_of_strings, array_size
         fprintf(stdout, "Failed to create file");
         return -1;
     }
-    for (int i = 0; i < number_of_lines; i++) {
+    for (int i = 0; i < (int) number_of_lines; i++) {
         fputs(array_of_strings[i], new_file);
     }
     fclose(new_file);
@@ -170,7 +170,7 @@ int main(int argc, char **argv) {
     if (!(array_of_strings = allocate_memory(entered_number_of_lines))) {
         return -1;
     }
-    if ((actual_number_of_lines = reading_file(argv[2], array_of_strings, entered_number_of_lines)) == -1) {
+    if ((actual_number_of_lines = reading_file(argv[2], array_of_strings, entered_number_of_lines)) == 0) {
         free_of_array(array_of_strings, entered_number_of_lines);
         return -1;
     }

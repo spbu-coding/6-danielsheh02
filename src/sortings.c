@@ -116,7 +116,7 @@ void countSort_radix(strings_array_t array_of_strings, size_t number_of_lines, i
     int i, count[NUMBER_OF_SYMBOLS_IN_CHARSET] = {0};
 
     for (i = 0; i < (int) (number_of_lines); i++) {
-        count[(int)(array_of_strings[i][column_number])]++;
+        count[(int) (array_of_strings[i][column_number])]++;
     }
 
     for (i = 1; i < NUMBER_OF_SYMBOLS_IN_CHARSET; i++) {
@@ -124,8 +124,8 @@ void countSort_radix(strings_array_t array_of_strings, size_t number_of_lines, i
     }
 
     for (i = (int) (number_of_lines - 1); i >= 0; i--) {
-        output[count[(int)(array_of_strings[i][column_number])] - 1] = array_of_strings[i];
-        count[(int)(array_of_strings[i][column_number])]--;
+        output[count[(int) (array_of_strings[i][column_number])] - 1] = array_of_strings[i];
+        count[(int) (array_of_strings[i][column_number])]--;
     }
 
     for (i = 0; i < (int) (number_of_lines); i++) {
