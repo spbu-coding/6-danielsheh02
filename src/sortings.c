@@ -116,16 +116,16 @@ void countSort_radix(strings_array_t array_of_strings, size_t number_of_lines, i
     int i, count[NUMBER_OF_SYMBOLS_IN_CHARSET] = {0};
 
     for (i = 0; i < number_of_lines; i++) {
-        count[(array_of_strings[i][column_number])]++;
+        count[(int)(array_of_strings[i][column_number])]++;
     }
 
     for (i = 1; i < NUMBER_OF_SYMBOLS_IN_CHARSET; i++) {
         count[i] += count[i - 1];
     }
 
-    for (i = number_of_lines - 1; i >= 0; i--) {
-        output[count[array_of_strings[i][column_number]] - 1] = array_of_strings[i];
-        count[array_of_strings[i][column_number]]--;
+    for (i = (int) (number_of_lines - 1); i >= 0; i--) {
+        output[count[(int)(array_of_strings[i][column_number])] - 1] = array_of_strings[i];
+        count[(int)(array_of_strings[i][column_number])]--;
     }
 
     for (i = 0; i < number_of_lines; i++) {
@@ -139,7 +139,7 @@ void countSort_radix(strings_array_t array_of_strings, size_t number_of_lines, i
 
 void radix(strings_array_t array_of_strings, size_t number_of_lines, comparator_func_t comparator) {
     unsigned long max_string = getMax_radix(array_of_strings, number_of_lines);
-    for (int column_number = max_string - 1; column_number >= 0; column_number--) {
+    for (int column_number = (int) (max_string - 1); column_number >= 0; column_number--) {
         countSort_radix(array_of_strings, number_of_lines, column_number, comparator);
     }
 }
