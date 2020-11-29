@@ -79,7 +79,7 @@ void quick(strings_array_t array_of_strings, array_size_t number_of_lines, compa
 void insertion(strings_array_t array_of_strings, array_size_t number_of_lines, comparator_func_t comparator) {
     int i, j;
     char *key;
-    for (i = 1; i < number_of_lines; i++) {
+    for (i = 1; i < (int) (number_of_lines); i++) {
         key = array_of_strings[i];
         j = i - 1;
         while (j >= 0 && (comparator(array_of_strings[j], key) > 0)) {
@@ -91,8 +91,8 @@ void insertion(strings_array_t array_of_strings, array_size_t number_of_lines, c
 }
 
 void bubble(strings_array_t array_of_strings, size_t number_of_lines, comparator_func_t comparator) {
-    for (int i = 0; i < number_of_lines - 1; i++) {
-        for (int j = 0; j < number_of_lines - i - 1; j++) {
+    for (int i = 0; i < (int) (number_of_lines - 1); i++) {
+        for (int j = 0; j < (int) (number_of_lines - 1); j++) {
             if (comparator(array_of_strings[j], array_of_strings[j + 1]) > 0) {
                 swap(&array_of_strings[j], &array_of_strings[j + 1]);
             }
@@ -102,7 +102,7 @@ void bubble(strings_array_t array_of_strings, size_t number_of_lines, comparator
 
 unsigned long getMax_radix(strings_array_t array_of_strings, size_t number_of_lines) {
     unsigned long max_string = strlen(array_of_strings[0]);
-    for (int i = 1; i < number_of_lines; i++) {
+    for (int i = 1; i < (int) (number_of_lines); i++) {
         if (strlen(array_of_strings[i]) > max_string) {
             max_string = strlen(array_of_strings[i]);
         }
@@ -115,7 +115,7 @@ void countSort_radix(strings_array_t array_of_strings, size_t number_of_lines, i
     char *output[number_of_lines];
     int i, count[NUMBER_OF_SYMBOLS_IN_CHARSET] = {0};
 
-    for (i = 0; i < number_of_lines; i++) {
+    for (i = 0; i < (int) (number_of_lines); i++) {
         count[(int)(array_of_strings[i][column_number])]++;
     }
 
@@ -128,7 +128,7 @@ void countSort_radix(strings_array_t array_of_strings, size_t number_of_lines, i
         count[(int)(array_of_strings[i][column_number])]--;
     }
 
-    for (i = 0; i < number_of_lines; i++) {
+    for (i = 0; i < (int) (number_of_lines); i++) {
         if (column_number > 0 || comparator == compare_asc) {
             array_of_strings[i] = output[i];
         } else {
