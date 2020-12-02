@@ -92,7 +92,7 @@ size_t reading_file(char *name_input, strings_array_t array_of_strings, array_si
                     array_of_strings[i][j] = '\r';
                     array_of_strings[i][j + 1] = '\n';
                 } else {
-                    actual_number_of_lines = count;
+                    actual_number_of_lines = count + 1;
                 }
                 break;
             }
@@ -108,8 +108,12 @@ int writing_file(char *name_output, strings_array_t array_of_strings, array_size
         fprintf(stdout, "Failed to create file");
         return -1;
     }
-    for (int i = 0; i < (int) number_of_lines; i++) {
-        fputs(array_of_strings[i], new_file);
+    if (number_of_lines == 0) {
+        fputs(array_of_strings[0], new_file);
+    } else {
+        for (int i = 0; i < (int) number_of_lines; i++) {
+            fputs(array_of_strings[i], new_file);
+        }
     }
     fclose(new_file);
     return 0;
@@ -133,9 +137,21 @@ int main(int argc, char **argv) {
         return -1;
     }
     entered_number_of_lines = strtol(argv[1], NULL, 10);
-    if (entered_number_of_lines == 0) {
-        fprintf(stdout, "The number of compared strings cannot be 0, perhaps you entered NOT NUMBER.\n");
+    if (entered_number_of_lines == 0 && argv[1][0] != '0') {
+        fprintf(stdout, "Perhaps you entered NOT NUMBER.\n");
         return -1;
+    }
+    if ((int) entered_number_of_lines < 0) {
+        fprintf(stdout, "The number of compared strings cannot be negative.\n");
+        return -1;
+    }
+    if (entered_number_of_lines == 0 && argv[1][0] == '0') {
+        char *array[1] = {"\n"};
+        if (writing_file(argv[3], array, entered_number_of_lines) == 0) {
+            return 0;
+        } else {
+            return -1;
+        }
     }
     if (strncmp(argv[4], "bubble", BUBBLE_SORT_LENGTH) == 0) {
         bubble_count += 1;
